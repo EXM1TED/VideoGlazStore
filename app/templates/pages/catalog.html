@@ -1,0 +1,50 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="container catalog-hero">
+    <div>
+        <p class="kicker">Каталог оборудования</p>
+        <h1>Товары для видеонаблюдения и безопасности</h1>
+        <p>Выберите оборудование для дома, офиса и бизнеса. Все позиции загружаются из базы данных.</p>
+    </div>
+</section>
+
+<section class="container catalog-section">
+    {% if products %}
+        <div class="catalog-grid">
+            {% for product in products %}
+                <article class="product-card">
+                    <div class="product-media">
+                        {% if product.image_url %}
+                            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <div class="product-media-placeholder">Нет изображения</div>
+                        {% endif %}
+                    </div>
+                    <div class="product-content">
+                        <h2>{{ product.name }}</h2>
+                        <p class="product-description">
+                            {{ product.description[:120] }}{% if product.description|length > 120 %}...{% endif %}
+                        </p>
+                        <div class="product-meta">
+                            <span class="product-category">{{ product.category }}</span>
+                            <strong class="product-price">{{ '%.2f'|format(product.price) }} ₽</strong>
+                        </div>
+                        <div class="product-actions">
+                            <a href="{{ url_for('main.product_details', product_id=product.id) }}" class="btn btn-ghost">Подробнее</a>
+                            <form method="post" action="{{ url_for('main.add_to_cart', product_id=product.id) }}">
+                                <button type="submit" class="btn btn-primary">В корзину</button>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h2>Пока нет товаров</h2>
+            <p>Каталог пуст. Добавьте товары в базу данных, и они появятся здесь автоматически.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

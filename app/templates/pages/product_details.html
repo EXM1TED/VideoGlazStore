@@ -1,0 +1,41 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="container product-details-layout">
+    <div class="product-details-media">
+        {% if product.image_url %}
+            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+        {% else %}
+            <div class="product-details-placeholder">Изображение отсутствует</div>
+        {% endif %}
+    </div>
+
+    <article class="product-details-card">
+        <p class="kicker">Карточка товара</p>
+        <h1>{{ product.name }}</h1>
+        <p class="product-details-description">{{ product.description }}</p>
+
+        <dl class="product-details-meta">
+            <div>
+                <dt>Цена</dt>
+                <dd>{{ '%.2f'|format(product.price) }} ₽</dd>
+            </div>
+            <div>
+                <dt>Категория</dt>
+                <dd>{{ product.category }}</dd>
+            </div>
+            <div>
+                <dt>Остаток на складе</dt>
+                <dd>{{ product.stock_quantity }} шт.</dd>
+            </div>
+        </dl>
+
+        <div class="product-actions">
+            <a href="{{ url_for('main.catalog') }}" class="btn btn-ghost">Назад в каталог</a>
+            <form method="post" action="{{ url_for('main.add_to_cart', product_id=product.id) }}">
+                <button type="submit" class="btn btn-primary">Добавить в корзину</button>
+            </form>
+        </div>
+    </article>
+</section>
+{% endblock %}

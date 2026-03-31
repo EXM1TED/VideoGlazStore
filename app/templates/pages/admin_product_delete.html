@@ -1,0 +1,16 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="container page-card admin-delete-card">
+    <h1>Удаление товара</h1>
+    <p>Вы действительно хотите удалить товар <strong>«{{ product.name }}»</strong>?</p>
+    <p class="muted">Это действие нельзя отменить.</p>
+
+    <div class="admin-form-actions">
+        <form method="post">
+            <button type="submit" class="btn btn-danger">Подтвердить удаление</button>
+        </form>
+        <a href="{{ url_for('main.admin_panel') }}" class="btn btn-ghost">Отмена</a>
+    </div>
+</section>
+{% endblock %}

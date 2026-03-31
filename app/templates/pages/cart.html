@@ -1,0 +1,58 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="container page-card">
+    <h1>Корзина</h1>
+
+    {% if cart_items %}
+        <div class="cart-summary-head">
+            <p>Товаров в корзине: <strong>{{ total_items }}</strong></p>
+            <p>Итого: <strong>{{ '%.2f'|format(total_price) }} ₽</strong></p>
+        </div>
+
+        <div class="cart-table-wrap">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Товар</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th>Сумма</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ '%.2f'|format(item.unit_price) }} ₽</td>
+                            <td>
+                                <form method="post" action="{{ url_for('main.update_cart_item', product_id=item.product.id) }}" class="cart-qty-form">
+                                    <input type="number" name="quantity" min="0" step="1" value="{{ item.quantity }}">
+                                    <button type="submit" class="btn btn-ghost">Обновить</button>
+                                </form>
+                            </td>
+                            <td>{{ '%.2f'|format(item.subtotal) }} ₽</td>
+                            <td>
+                                <form method="post" action="{{ url_for('main.remove_from_cart', product_id=item.product.id) }}">
+                                    <button type="submit" class="btn btn-danger">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="cart-footer">
+            <p>Общая сумма заказа: <strong>{{ '%.2f'|format(total_price) }} ₽</strong></p>
+            <form method="post" action="{{ url_for('main.create_order') }}">
+                <button type="submit" class="btn btn-primary">Оформить заказ</button>
+            </form>
+        </div>
+    {% else %}
+        <p>Корзина пока пуста. Добавьте товары из каталога.</p>
+        <a href="{{ url_for('main.catalog') }}" class="btn btn-primary">Перейти в каталог</a>
+    {% endif %}
+</section>
+{% endblock %}

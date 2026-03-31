@@ -1,0 +1,41 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="container profile-layout">
+    <article class="page-card profile-card">
+        <p class="kicker">Личный кабинет</p>
+        <h1>Профиль пользователя</h1>
+        <p>Здесь отображаются основные данные вашего аккаунта.</p>
+
+        <dl class="profile-meta">
+            <div>
+                <dt>Имя</dt>
+                <dd>{{ current_user.name }}</dd>
+            </div>
+            <div>
+                <dt>Email</dt>
+                <dd>{{ current_user.email }}</dd>
+            </div>
+            <div>
+                <dt>Роль</dt>
+                <dd>
+                    {% if current_user.is_admin %}
+                        Администратор
+                    {% else %}
+                        Пользователь
+                    {% endif %}
+                </dd>
+            </div>
+        </dl>
+    </article>
+
+    <article class="page-card profile-side-card">
+        <h2>Быстрые действия</h2>
+        <p>Перейдите к заказам или в каталог для новых покупок.</p>
+        <div class="profile-actions">
+            <a class="btn btn-primary" href="{{ url_for('main.orders') }}">Мои заказы</a>
+            <a class="btn btn-ghost" href="{{ url_for('main.catalog') }}">Перейти в каталог</a>
+        </div>
+    </article>
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="container page-card small auth-card">
+    <h1>Вход</h1>
+    <p>Введите данные аккаунта для входа в систему.</p>
+
+    <form method="post" class="auth-form">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="text" placeholder="Введите email" value="{{ request.form.get('email', '') }}" required>
+
+        <label for="password">Пароль</label>
+        <input id="password" name="password" type="password" placeholder="Введите пароль" required>
+
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+</section>
+{% endblock %}

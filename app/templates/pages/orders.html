@@ -1,0 +1,53 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="container page-card">
+    <h1>Мои заказы</h1>
+
+    {% if orders %}
+        <div class="orders-list">
+            {% for order in orders %}
+                <article class="order-card">
+                    <div class="order-head">
+                        <div>
+                            <h2>Заказ #{{ order.id }}</h2>
+                            <p>Дата создания: {{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+                        </div>
+                        <div class="order-head-right">
+                            <span class="status-badge status-{{ order.status.value|lower }}">
+                                {% if order.status.value == 'CREATED' %}
+                                    Создан
+                                {% else %}
+                                    Отменен
+                                {% endif %}
+                            </span>
+                            <strong>{{ '%.2f'|format(order.total_price) }} ₽</strong>
+                        </div>
+                    </div>
+
+                    <h3 class="order-items-title">Товары в заказе</h3>
+                    <div class="order-items">
+                        {% for item in order.items %}
+                            <div class="order-item-row">
+                                <span>{{ item.product.name }}</span>
+                                <span>{{ item.quantity }} x {{ '%.2f'|format(item.price_at_purchase) }} ₽</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if order.status.value == 'CREATED' %}
+                        <form method="post" action="{{ url_for('main.cancel_order', order_id=order.id) }}">
+                            <button type="submit" class="btn btn-danger">Отменить заказ</button>
+                        </form>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h2>У вас пока нет заказов</h2>
+            <p>Добавьте товары в корзину и оформите первый заказ.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

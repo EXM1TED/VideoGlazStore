@@ -1,0 +1,37 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="container page-card admin-form-card">
+    <h1>{{ form_title }}</h1>
+
+    <form method="post" class="admin-form">
+        <label for="name">Название</label>
+        <input id="name" name="name" type="text" required
+               value="{{ request.form.get('name', product.name if product else '') }}">
+
+        <label for="description">Описание</label>
+        <textarea id="description" name="description" rows="5" required>{{ request.form.get('description', product.description if product else '') }}</textarea>
+
+        <label for="image_url">URL изображения</label>
+        <input id="image_url" name="image_url" type="url"
+               value="{{ request.form.get('image_url', product.image_url if product and product.image_url else '') }}">
+
+        <label for="price">Цена</label>
+        <input id="price" name="price" type="number" step="0.01" min="0" required
+               value="{{ request.form.get('price', product.price if product else '') }}">
+
+        <label for="stock_quantity">Количество на складе</label>
+        <input id="stock_quantity" name="stock_quantity" type="number" step="1" min="0" required
+               value="{{ request.form.get('stock_quantity', product.stock_quantity if product else '0') }}">
+
+        <label for="category">Категория</label>
+        <input id="category" name="category" type="text" required
+               value="{{ request.form.get('category', product.category if product else '') }}">
+
+        <div class="admin-form-actions">
+            <button type="submit" class="btn btn-primary">{{ submit_text }}</button>
+            <a href="{{ url_for('main.admin_panel') }}" class="btn btn-ghost">Отмена</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

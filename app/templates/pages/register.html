@@ -1,0 +1,21 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="container page-card small auth-card">
+    <h1>Регистрация</h1>
+    <p>Создайте аккаунт для оформления заказов и доступа к профилю.</p>
+
+    <form method="post" class="auth-form">
+        <label for="name">Имя</label>
+        <input id="name" name="name" type="text" placeholder="Введите имя" value="{{ request.form.get('name', '') }}" required>
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="text" placeholder="Введите email" value="{{ request.form.get('email', '') }}" required>
+
+        <label for="password">Пароль</label>
+        <input id="password" name="password" type="password" placeholder="Минимум 6 символов" required>
+
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,21 @@
+﻿<header class="site-header">
+    <div class="container header-row">
+        <a href="{{ url_for('main.home') }}" class="brand">
+            <span class="brand-mark">VG</span>
+            <span class="brand-text">ВидеоГлаз Store</span>
+        </a>
+        {% include 'includes/nav.html' %}
+        <div class="header-actions">
+            {% if current_user.is_authenticated %}
+                <span class="user-chip">{{ current_user.name }}</span>
+                <form method="post" action="{{ url_for('main.logout') }}">
+                    <button type="submit" class="btn btn-ghost">Выйти</button>
+                </form>
+            {% else %}
+                <a href="{{ url_for('main.login') }}" class="btn btn-ghost">Войти</a>
+                <a href="{{ url_for('main.register') }}" class="btn btn-primary">Регистрация</a>
+            {% endif %}
+            <a href="{{ url_for('main.cart') }}" class="btn btn-primary">Корзина</a>
+        </div>
+    </div>
+</header>

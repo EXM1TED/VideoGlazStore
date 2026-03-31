@@ -1,0 +1,47 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<section class="container page-card">
+    <h1>Все заказы</h1>
+
+    {% if orders %}
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Пользователь</th>
+                        <th>Статус</th>
+                        <th>Сумма</th>
+                        <th>Дата</th>
+                        <th>Позиции</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.user.email }}</td>
+                            <td>
+                                <span class="status-badge status-{{ order.status.value|lower }}">{{ order.status.value }}</span>
+                            </td>
+                            <td>{{ '%.2f'|format(order.total_price) }} ₽</td>
+                            <td>{{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                            <td>
+                                {% for item in order.items %}
+                                    <div>{{ item.product.name }} ({{ item.quantity }} шт.)</div>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h2>Заказов пока нет</h2>
+            <p>После оформления заказов пользователями они появятся здесь.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
